@@ -56,7 +56,7 @@
                 >;
             };
 
-	 bb_uart1_pins: pinmux_bb_uart1_pins {
+	 bb_uart1_pins: bb_uart1_pins {
             		 	pinctrl-single,pins = <
                                         0x184 0x20 /* P9.24 uart1_txd.uart1_txd MODE0 OUTPUT (TX) */
                                         0x180 0x20 /* P9.26 uart1_rxd.uart1_rxd MODE0 INPUT (RX) */

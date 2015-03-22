@@ -16,8 +16,8 @@
         /* state the resources this cape uses */
         exclusive-use =
                 /* the pin header uses */
- //               "P9.24",        /* uart1_txd */
-   //             "P9.26",        /* uart1_rxd */
+ /              "P9.24",        /* uart1_txd */
+                "P9.26",        /* uart1_rxd */
 //
 //		"P9.21",	/* uart2_txd */
 //		"P9.22",	/* uart2_rxd */
@@ -32,7 +32,7 @@
                 "P9.25",        /* PRU PWM */
        /* the hardware ip uses */
 //		"i2c1";
-//                "uart1";
+                "uart1";
 //		"uart2";
  		"pruss"; 
 
@@ -55,6 +55,15 @@
 					
                 >;
             };
+
+	 bb_uart1_pins: pinmux_bb_uart1_pins {
+            		 	pinctrl-single,pins = <
+                                        0x184 0x20 /* P9.24 uart1_txd.uart1_txd MODE0 OUTPUT (TX) */
+                                        0x180 0x20 /* P9.26 uart1_rxd.uart1_rxd MODE0 INPUT (RX) */
+               >;
+           };
+
+
 	};
 	};
 
@@ -72,6 +81,17 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <&pru0_output_pins>;
 		};
+	};
+
+
+
+fragment@2 {
+ 	target = <&uart2>;	/* really uart1 */
+        __overlay__ {
+                        status = "okay";
+                        pinctrl-names = "default";
+                        pinctrl-0 = <&bb_uart1_pins>;
+                };
 	};
 
 };
