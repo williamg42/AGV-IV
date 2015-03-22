@@ -100,6 +100,51 @@
 	};
 
 
+fragment@2 {
+ 	target = <&uart2>;	/* really uart1 */
+        __overlay__ {
+                        status = "okay";
+                        pinctrl-names = "default";
+                        pinctrl-0 = <&bb_uart1_pins>;
+                };
+};
+fragment@3 {
+	target = <&uart3>;	/* really uart2 */
+	__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&bb_uart2_pins>;
+		};
+};
+
+fragment@4 {
+	target = <&i2c1>;	/* i2c1 is numbered correctly */
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&bb_i2c1_pins>;
+
+			/* this is the configuration part */
+			clock-frequency = <100000>;
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			/* add any i2c devices on the bus here */
+
+			// commented out example of a touchscreen (taken from BB-BONE-LCD7-01-00A4) */
+			// maxtouch@4a {
+			//	compatible = "mXT224";
+			//	reg = <0x4a>;
+			//	interrupt-parent = <&gpio4>;
+			//	interrupts = <19 0x0>;
+			//	atmel,irq-gpio = <&gpio4 19 0>;
+			// };
+		};
+
+	};
+
+
 
 
 };
