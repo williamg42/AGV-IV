@@ -18,8 +18,8 @@
                 "P9.24",        /* uart1_txd */
                 "P9.26",        /* uart1_rxd */
 
-//		"P9.21",	/* uart2_txd */
-//		"P9.22",	/* uart2_rxd */
+		"P9.21",	/* uart2_txd */
+		"P9.22",	/* uart2_rxd */
 
 //		"P9.18",	/* i2c1_sda */
 //		"P9.17",	/* i2c1_scl */
@@ -50,6 +50,13 @@
                >;
            };
 
+			bb_uart2_pins: pinmux_bb_uart2_pins {
+				pinctrl-single,pins = <
+					0x150 0x21	/* spi0_sclk.uart2_rxd | MODE1 */
+					0x154 0x01	/* spi0_d0.uart2_txd | MODE1 */
+				>;
+			};
+
 
 			
         };
@@ -62,6 +69,14 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <&pru0_output_pins>;
 		};
+
+	target = <&uart3>;	/* really uart2 */
+	__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&bb_uart2_pins>;
+		};
+
 
  	
 	};
