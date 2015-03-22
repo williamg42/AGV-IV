@@ -49,14 +49,7 @@
                                         0x180 0x20 /* P9.26 uart1_rxd.uart1_rxd MODE0 INPUT (RX) */
                >;
            };
-
-			bb_uart2_pins: pinmux_bb_uart2_pins {
-				pinctrl-single,pins = <
-					0x150 0x21	/* spi0_sclk.uart2_rxd | MODE1 */
-					0x154 0x01	/* spi0_d0.uart2_txd | MODE1 */
-				>;
-			};
-
+			
 
 			
         };
