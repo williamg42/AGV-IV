@@ -63,12 +63,16 @@
     };
 
     fragment@1 {
-        target = <&pruss>;
+       
+
+	target = <&uart2>;	/* really uart1 */
         __overlay__ {
-			status = "okay";
-			pinctrl-names = "default";
-			pinctrl-0 = <&pru0_output_pins>;
-		};
+                        status = "okay";
+                        pinctrl-names = "default";
+                        pinctrl-0 = <&bb_uart1_pins>;
+                };
+
+
 
  	
 	};
