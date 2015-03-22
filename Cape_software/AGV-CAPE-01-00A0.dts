@@ -16,7 +16,7 @@
         /* state the resources this cape uses */
         exclusive-use =
                 /* the pin header uses */
- /              "P9.24",        /* uart1_txd */
+               "P9.24",        /* uart1_txd */
                 "P9.26",        /* uart1_rxd */
 //
 //		"P9.21",	/* uart2_txd */
