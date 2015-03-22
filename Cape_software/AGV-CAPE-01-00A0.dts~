@@ -34,7 +34,7 @@
 //		"i2c1";
                 "uart1";
 //		"uart2";
- 		"pruss"; 
+ 		"pru0"; 
 
 
 
