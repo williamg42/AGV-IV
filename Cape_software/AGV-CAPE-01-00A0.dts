@@ -31,8 +31,10 @@
                 "P9.27",        /* PRU PWM */
                 "P9.25",        /* PRU PWM */
        /* the hardware ip uses */
-		"i2c1";
-                "uart2";
+		"i2c1",
+		"uart1",
+                "uart2",
+		"pru0";
  	 
 
 
