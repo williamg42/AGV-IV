@@ -1,0 +1,11 @@
+﻿Put location of shared lib in 
+Properties
+C++ Builder
+Settings
+Cross G++ Compiler
+Includes
+Included paths "${workspace_loc:/BlackLib/v2_0}"
+Cross G++ Linker
+Libraries
+Libraries -l <BlackLib>
+Libraries search path "${workspace_loc:/BlackLib/Debug}"
