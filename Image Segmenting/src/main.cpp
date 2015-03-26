@@ -18,11 +18,11 @@ using namespace cv;
  * @function main
  */
 
-int x = 1280;
+int x = 1024;
 int y = 760;
-int threshold_hue = 40;
-int threshold_sat = 40;
-int threshold_v = 50;
+int threshold_hue = 200;
+int threshold_sat = 80;
+int threshold_v = 250;
 
 int main(int argc, char** argv) {
 	Mat src, src1, dst;
@@ -46,10 +46,15 @@ int main(int argc, char** argv) {
 
 	Mat mask = Mat::zeros(y, x, CV_8U);
 	vector<Point> contour; //    x  y
+
 	contour.push_back(Point(x, y));
 	contour.push_back(Point(0, y));
 	contour.push_back(Point((x / 2 - .18 * x), y - y / 2.5));
 	contour.push_back(Point((x / 2 + .18 * x), y - y / 2.5));
+//	contour.push_back(Point(765, 540));
+//	contour.push_back(Point(765, 570));
+//	contour.push_back(Point(1000, 570));
+//	contour.push_back(Point(1000, 540));
 
 	// For debugging purposes, draw green lines connecting those points
 	// and save it on disk
@@ -118,27 +123,27 @@ int main(int argc, char** argv) {
 			//hue_mask.at<uchar>(60, cols) = 255;
 
 			if (H_hist.at<float>(Hue) < threshold_hue) {
-				hue_mask.at<uchar>(rows, cols) = 255;
-			}
-
-			else {
 				hue_mask.at<uchar>(rows, cols) = 0;
 			}
 
-			if (S_hist.at<float>(Sat) < threshold_sat) {
-				sat_mask.at<uchar>(rows, cols) = 255;
+			else {
+				hue_mask.at<uchar>(rows, cols) = 255;
 			}
 
-			else {
+			if (S_hist.at<float>(Sat) < threshold_sat) {
 				sat_mask.at<uchar>(rows, cols) = 0;
 			}
 
+			else {
+				sat_mask.at<uchar>(rows, cols) = 255;
+			}
+
 			if (I_hist.at<float>(V) < threshold_v) {
-				Int_mask.at<uchar>(rows, cols) = 255;
+				Int_mask.at<uchar>(rows, cols) = 0;
 			}
 
 			else {
-				Int_mask.at<uchar>(rows, cols) = 0;
+				Int_mask.at<uchar>(rows, cols) = 255;
 			}
 
 			cols = cols + 1;
@@ -149,14 +154,15 @@ int main(int argc, char** argv) {
 		rows = rows + 1;
 
 	}
+	Mat element = getStructuringElement(MORPH_RECT, Size(2 * 3 + 1, 2 * 3 + 1),
+			Point(3, 3));
+
+	dilate(hue_mask, hue_mask, element);
+	dilate(Int_mask, Int_mask, element);
+	//erode(Result, Result, element);
 
 	Mat Result;
-bitwise_or(Int_mask, hue_mask, Result);
-	Mat element = getStructuringElement(MORPH_RECT,
-			Size(2 * 3 + 1, 2 * 3 + 1), Point(3, 3));
-
-	erode(Result, Result, element);
-	dilate(Result, Result, element);
+	bitwise_and(Int_mask, hue_mask, Result);
 
 
 	namedWindow("Sat Mask", WINDOW_NORMAL);
@@ -168,8 +174,6 @@ bitwise_or(Int_mask, hue_mask, Result);
 	namedWindow("I Mask", WINDOW_NORMAL);
 	imshow("I Mask", Int_mask);
 
-
-
 	namedWindow("Result", WINDOW_NORMAL);
 	imshow("Result", Result);
 
@@ -177,5 +181,4 @@ bitwise_or(Int_mask, hue_mask, Result);
 
 	return 0;
 }
-
 
