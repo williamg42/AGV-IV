@@ -30,10 +30,13 @@
                 "P9.28",        /* PRU PWM */
                 "P9.27",        /* PRU PWM */
                 "P9.25",        /* PRU PWM */
+                
+                "P9.11",	/* LED indicator */
        /* the hardware ip uses */
 		"i2c1",
 		"uart1",
                 "uart2",
+                "gpio0_30",
 		"pruss";
  	 
 
@@ -78,6 +81,10 @@
 					0x15c 0x72	/* spi0_cs0.i2c1_scl, SLEWCTRL_SLOW | INPUT_PULLUP | MODE2 */
 						>;
 					};
+					
+			LED_Indicator: pinmux_LED_Indicator {
+                		pinctrl-single,pins = <0x070 0xf>;
+            				};
 
 
 	
@@ -144,6 +151,19 @@ fragment@4 {
 		};
 
 	};
+	
+	
+	    fragment@5 {
+        target = <&ocp>;
+        __overlay__ {
+            LED_Indicator_pinmux {
+                compatible = "bone-pinmux-helper";
+                status = "okay";
+                pinctrl-names = "default";
+                pinctrl-0 = <&LED_Indicator>;
+            };
+        };
+    };
 
 
 
