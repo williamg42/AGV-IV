@@ -1,0 +1,1 @@
+Need to disable HDMI cape on boot, conflicts with some GPIO pins I want to use.
