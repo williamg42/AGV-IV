@@ -1,0 +1,20 @@
+[Unit]
+
+Description=LED indicator service (Causes random blinking light)
+
+[Service]
+
+Type=oneshot
+
+RemainAfterExit=true
+
+ExecStart=//opt/LED/LED.sh
+
+[Install]
+
+WantedBy=multi-user.target
+
+
+
+
+
