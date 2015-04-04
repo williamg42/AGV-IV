@@ -8,7 +8,7 @@ Type=oneshot
 
 RemainAfterExit=true
 
-ExecStart=//opt/LED/LED.sh
+ExecStart=/opt/LED/LED.sh
 
 [Install]
 
