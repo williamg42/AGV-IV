@@ -4,6 +4,8 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <LiFuelGauge.h>
+
 
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
@@ -30,12 +32,19 @@ byte vibrate = 0;
 unsigned short checksum = 0;
 char message[23];
 
+LiFuelGauge gauge(MAX17043, 0, lowPower);
+volatile boolean alert = false;
+
 void setup() {
 
   Serial.begin(57600);
   display.begin(SSD1306_SWITCHCAPVCC, 0x3D);
   display.display();//Shows defualt adafruit splash screen, change at later date
   crcInit();
+   gauge.reset(); // Resets MAX17043
+delay(200); // Waits for the initial measurements to be made
+// Sets the Alert Threshold to 10% of full capacity
+gauge.setAlertThreshold(10);
 
   delay(1000);  //added delay to give wireless ps2 module some time to startup, before configuring it
   display.clearDisplay();
@@ -78,6 +87,11 @@ void setup() {
 }
 
 void loop() {
+  gauge.getSOC();
+  gauge.getVoltage();
+  display.setCursor(0, 30);
+  display.println("Voltage = : SOC = : ");
+  
 
   if (error == 1)
   {
