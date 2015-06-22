@@ -10,6 +10,11 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
 
+#if (SSD1306_LCDHEIGHT != 64)
+#error("Height incorrect, please fix Adafruit_SSD1306.h!");
+#endif
+
+
 #define PS2_DAT        13
 #define PS2_CMD        11
 #define PS2_SEL        10
@@ -41,10 +46,10 @@ void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3D);
   display.display();//Shows defualt adafruit splash screen, change at later date
   crcInit();
-   gauge.reset(); // Resets MAX17043
-delay(200); // Waits for the initial measurements to be made
+  gauge.reset(); // Resets MAX17043
+  delay(200); // Waits for the initial measurements to be made
 // Sets the Alert Threshold to 10% of full capacity
-gauge.setAlertThreshold(10);
+  gauge.setAlertThreshold(10);
 
   delay(1000);  //added delay to give wireless ps2 module some time to startup, before configuring it
   display.clearDisplay();
@@ -73,25 +78,29 @@ gauge.setAlertThreshold(10);
       display.println("false");
   }
   else if (error == 1)
+  {
     display.setCursor(0, 0);
-  display.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
-
+    display.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
+  }
   else if (error == 2)
+  {
     display.setCursor(0, 0);
-  display.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
-
+    display.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
+  }
   else if (error == 3)
+  {
     display.setCursor(0, 0);
-  display.println("Controller refusing to enter Pressures mode, may not support it. ");
-
+    display.println("Controller refusing to enter Pressures mode, may not support it. ");
+  }
+  display.display();
 }
 
 void loop() {
   gauge.getSOC();
   gauge.getVoltage();
-  display.setCursor(0, 30);
+  display.setCursor(0, 60);
   display.println("Voltage = : SOC = : ");
-  
+  display.display();
 
   if (error == 1)
   {
