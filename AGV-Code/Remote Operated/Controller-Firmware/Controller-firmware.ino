@@ -85,7 +85,7 @@ void loop() {
   }
 
   else { //DualShock Controller
-    ps2x.read_gamepad(false, vibrate); //read controller and set large motor to spin at 'vibrate' speed
+    ps2x.read_gamepad(); //read controller
 
     message[0] = 0;
     message[1] = ps2x.Button(PSB_START);
