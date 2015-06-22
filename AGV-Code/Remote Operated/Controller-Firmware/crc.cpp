@@ -80,60 +80,7 @@ reflect(unsigned long data, unsigned char nBits)
 } /* reflect() */
 
 
-/*********************************************************************
- *
- * Function:    crcSlow()
- * 
- * Description: Compute the CRC of a given message.
- *
- * Notes:   
- *
- * Returns:   The CRC of the message.
- *
- *********************************************************************/
-crc
-crcSlow(unsigned char const message[], int nBytes)
-{
-    crc            remainder = INITIAL_REMAINDER;
-  int            byte;
-  unsigned char  bit;
 
-
-    /*
-     * Perform modulo-2 division, a byte at a time.
-     */
-    for (byte = 0; byte < nBytes; ++byte)
-    {
-        /*
-         * Bring the next byte into the remainder.
-         */
-        remainder ^= (REFLECT_DATA(message[byte]) << (WIDTH - 8));
-
-        /*
-         * Perform modulo-2 division, a bit at a time.
-         */
-        for (bit = 8; bit > 0; --bit)
-        {
-            /*
-             * Try to divide the current data bit.
-             */
-            if (remainder & TOPBIT)
-            {
-                remainder = (remainder << 1) ^ POLYNOMIAL;
-            }
-            else
-            {
-                remainder = (remainder << 1);
-            }
-        }
-    }
-
-    /*
-     * The final remainder is the CRC result.
-     */
-    return (REFLECT_REMAINDER(remainder) ^ FINAL_XOR_VALUE);
-
-}   /* crcSlow() */
 
 
 crc  crcTable[256];
