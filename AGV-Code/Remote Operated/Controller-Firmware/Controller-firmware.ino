@@ -8,7 +8,8 @@
 #define PS2_CMD        11
 #define PS2_SEL        10
 #define PS2_CLK        12
- 
+
+#define RESET 4
 //#define pressures   true
 #define pressures   false
 //#define rumble      true
@@ -53,7 +54,7 @@ void draw(void) {
 
 
 void setup() {
-
+ pinMode(RESET, OUTPUT); 
 
    if ( u8g.getMode() == U8G_MODE_R3G3B2 ) {
     u8g.setColorIndex(255);     // white
@@ -68,6 +69,11 @@ void setup() {
     u8g.setHiColorByRGB(255,255,255);
   }
 
+  
+  digitalWrite(RESET, HIGH);   // sets the LED on
+   digitalWrite(RESET, LOW);    // sets the LED off
+   delay(10);                  // waits for a second
+  digitalWrite(RESET, HIGH);    // sets the LED off
 
   Serial.begin(57600);
   
