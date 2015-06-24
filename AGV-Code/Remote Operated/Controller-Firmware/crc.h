@@ -16,7 +16,7 @@
 #ifndef _crc_h
 #define _crc_h
 
-#include <Arduino.h> //needed for Serial.println
+
 #define FALSE  0
 #define TRUE  !FALSE
 
@@ -70,7 +70,8 @@ typedef unsigned long  crc;
 
 
 void  crcInit(void);
-crc   crcFast(unsigned char const message[], int nBytes);
+crc   crcSlow(unsigned char const message[], int nBytes);
+//crc   crcFast(unsigned char const message[], int nBytes);
 
 
 #endif /* _crc_h */
