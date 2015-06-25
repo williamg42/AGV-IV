@@ -15,13 +15,17 @@
 //#define rumble      true
 #define rumble      false
 
+#define BATICONX  119
+#define BATICONY  0
+
 PS2X ps2x; // create PS2 Controller Class
 
 //right now, the library does NOT support hot pluggable controllers, meaning
 //you must always either restart your Arduino after you connect the controller,
 //or call config_gamepad(pins) again after connecting the controller.
-String BatteryCharge;
-String Voltage;
+float SOC = 0;
+float VBatt = 0;
+int RoundSOC = 0;
 int error = 0;
 byte type = 0;
 byte vibrate = 0;
@@ -29,26 +33,129 @@ unsigned short checksum = 0;
 char message[23];
 int rssiDur;
 
+const uint8_t battery_bitmap[] U8G_PROGMEM = {
+  0b00011000,
+  0b01111110,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01000010,
+  0b01111110  
+};
+
+const uint8_t battery_Charging_bitmap[] U8G_PROGMEM = {
+  0b00011000,
+  0b01111110,
+  0b01111010,
+  0b01110110,
+  0b01101110,
+  0b01011110,
+  0b01101110,
+  0b01110110,
+  0b01111010,
+  0b01110110,
+  0b01101110,
+  0b01011110,
+  0b01111110  
+};
+
 U8GLIB_SH1106_128X64 u8g(U8G_I2C_OPT_NO_ACK);  // Display which does not send ACK
 
 LiFuelGauge gauge(MAX17043, 0, lowPower);
 volatile boolean alert = false;
 
 void draw(void) {
-  // graphic commands to redraw the complete screen should be placed here  
-  u8g.setFont(u8g_font_unifont);
-  //u8g.setFont(u8g_font_osb21); gauge.getVoltage()
-  u8g.setPrintPos(5, 44);
-   u8g.print("SOC:");
-   u8g.setPrintPos(0, 64);
-  u8g.print(gauge.getSOC());
+  // graphic commands to redraw the complete screen should be placed here
+if (RoundSOC >= 100)
+{
+u8g.setFont(u8g_font_5x7);
+u8g.setPrintPos(BATICONX-22, BATICONY+10);
+  u8g.print(RoundSOC);
+  u8g.setPrintPos(BATICONX-6, BATICONY+10);
+  u8g.print("%");
+}
 
-    u8g.setPrintPos(95, 44);
-   u8g.print("V:");
-   u8g.setPrintPos(80, 64);
-  u8g.print(gauge.getVoltage());
+else
+{
+  u8g.setFont(u8g_font_5x7);
+u8g.setPrintPos(BATICONX-17, BATICONY+10);
+  u8g.print(RoundSOC);
+  u8g.setPrintPos(BATICONX-6, BATICONY+10);
+  u8g.print("%");  
+}
 
-    
+  if (VBatt > 4.19)
+  {
+u8g.drawBitmapP(BATICONX,BATICONY,1,13,battery_Charging_bitmap); 
+  }
+  else
+  {
+u8g.drawBitmapP(BATICONX,BATICONY,1,13,battery_bitmap);
+
+if (SOC >= 95)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+2,4,10); 
+}
+else if (SOC >= 85)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+3,4,9); 
+}
+
+else if (SOC >= 75)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+4,4,8); 
+}
+
+else if (SOC >= 65)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+5,4,7); 
+}
+else if (SOC >= 55)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+6,4,6); 
+}
+
+else if (SOC >= 45)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+7,4,5); 
+}
+
+else if (SOC >= 35)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+8,4,4); 
+}
+     
+  }
+
+
+
+//   
+//  //u8g.setFont(u8g_font_unifont);
+//  u8g.setFont(u8g_font_5x7);
+//
+//  
+//
+//u8g.setPrintPos(0, 35);
+//   u8g.print("Remote");
+//   
+//  u8g.setPrintPos(5, 42);
+//   u8g.print("SOC:");
+//   u8g.setPrintPos(0, 49);
+//  u8g.print(SOC);
+//
+//    u8g.setPrintPos(0, 56);
+//   u8g.print("VBatt:");
+//   u8g.setPrintPos(0, 64);
+//  u8g.print(VBatt);
+// u8g.setPrintPos(20, 64);
+//   u8g.print("V");
+//    
 }
 
 
@@ -124,6 +231,9 @@ void setup() {
 
 void loop() {
 
+  SOC = gauge.getSOC();
+  VBatt = gauge.getVoltage();
+RoundSOC = SOC;
   // picture loop
   u8g.firstPage();  
   do {
