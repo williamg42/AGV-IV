@@ -18,6 +18,9 @@
 #define BATICONX  119
 #define BATICONY  0
 
+#define SIGNALX 88
+#define SIGNALY 0
+
 PS2X ps2x; // create PS2 Controller Class
 
 //right now, the library does NOT support hot pluggable controllers, meaning
@@ -32,6 +35,7 @@ byte vibrate = 0;
 unsigned short checksum = 0;
 char message[23];
 int rssiDur;
+int rssiValue;
 
 const uint8_t battery_bitmap[] U8G_PROGMEM = {
   0b00011000,
@@ -134,28 +138,69 @@ else if (SOC >= 35)
   }
 
 
+switch(rssiValue)
+{
+  
+  case 0:
+  {
+    u8g.setFont(u8g_font_unifont);
+    u8g.setPrintPos(SIGNALX-5, SIGNALY+11);
+   u8g.print("X");
 
-//   
-//  //u8g.setFont(u8g_font_unifont);
-//  u8g.setFont(u8g_font_5x7);
-//
-//  
-//
-//u8g.setPrintPos(0, 35);
-//   u8g.print("Remote");
-//   
-//  u8g.setPrintPos(5, 42);
-//   u8g.print("SOC:");
-//   u8g.setPrintPos(0, 49);
-//  u8g.print(SOC);
-//
-//    u8g.setPrintPos(0, 56);
-//   u8g.print("VBatt:");
-//   u8g.setPrintPos(0, 64);
-//  u8g.print(VBatt);
-// u8g.setPrintPos(20, 64);
-//   u8g.print("V");
-//    
+ break;
+  }
+
+  
+  case 1:
+  {
+   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+
+    break;
+
+  }
+
+  case 2:
+  {
+  u8g.drawBox(SIGNALX-10,SIGNALY+7,4,6);
+
+   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+
+
+    break;
+
+    
+  }
+
+  case 3:
+  {
+
+   u8g.drawBox(SIGNALX-5,SIGNALY+4,4,9);
+
+   u8g.drawBox(SIGNALX-10,SIGNALY+7,4,6);
+
+   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+
+
+   break;  
+    
+  }
+
+  case 4:
+  {
+     u8g.drawBox(SIGNALX,SIGNALY+1,4,12);  
+
+   u8g.drawBox(SIGNALX-5,SIGNALY+4,4,9);
+
+   u8g.drawBox(SIGNALX-10,SIGNALY+7,4,6);
+
+   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+
+   break;
+    
+  }
+}
+
+  
 }
 
 
@@ -243,7 +288,7 @@ RoundSOC = SOC;
   
 
  rssiDur = pulseIn(6, LOW, 200);
-  //Serial.println("Voltage = : SOC = : ");
+ rssiValue = map(rssiDur, 0, 200, 0, 4);
  
   if (error == 1)
   {
