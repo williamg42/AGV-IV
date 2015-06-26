@@ -18,7 +18,7 @@
 #define BATICONX  119
 #define BATICONY  0
 
-#define SIGNALX 88
+#define SIGNALX 40
 #define SIGNALY 0
 
 PS2X ps2x; // create PS2 Controller Class
@@ -36,6 +36,8 @@ unsigned short checksum = 0;
 char message[23];
 int rssiDur;
 int rssiValue;
+
+int displaycycle = 0;
 
 const uint8_t battery_bitmap[] U8G_PROGMEM = {
   0b00011000,
@@ -76,6 +78,12 @@ volatile boolean alert = false;
 
 void draw(void) {
   // graphic commands to redraw the complete screen should be placed here
+
+  u8g.setFont(u8g_font_5x7);
+    u8g.setPrintPos(50, 50);
+   u8g.print(SOC);
+
+   
 if (RoundSOC >= 100)
 {
 u8g.setFont(u8g_font_5x7);
@@ -102,35 +110,35 @@ u8g.drawBitmapP(BATICONX,BATICONY,1,13,battery_Charging_bitmap);
   {
 u8g.drawBitmapP(BATICONX,BATICONY,1,13,battery_bitmap);
 
-if (SOC >= 95)
+if (RoundSOC >= 95)
 {
   u8g.drawBox(BATICONX+2,BATICONY+2,4,10); 
 }
-else if (SOC >= 85)
+else if (RoundSOC >= 85 && RoundSOC < 95)
 {
   u8g.drawBox(BATICONX+2,BATICONY+3,4,9); 
 }
 
-else if (SOC >= 75)
+else if (RoundSOC >= 75 && RoundSOC < 85)
 {
   u8g.drawBox(BATICONX+2,BATICONY+4,4,8); 
 }
 
-else if (SOC >= 65)
+else if (RoundSOC >= 65  && RoundSOC < 75)
 {
   u8g.drawBox(BATICONX+2,BATICONY+5,4,7); 
 }
-else if (SOC >= 55)
+else if (RoundSOC >= 55  && RoundSOC < 65)
 {
   u8g.drawBox(BATICONX+2,BATICONY+6,4,6); 
 }
 
-else if (SOC >= 45)
+else if (RoundSOC >= 45  && RoundSOC < 55)
 {
   u8g.drawBox(BATICONX+2,BATICONY+7,4,5); 
 }
 
-else if (SOC >= 35)
+else if (RoundSOC >= 35  && RoundSOC < 45)
 {
   u8g.drawBox(BATICONX+2,BATICONY+8,4,4); 
 }
@@ -138,13 +146,16 @@ else if (SOC >= 35)
   }
 
 
+ u8g.setFont(u8g_font_5x7);
+    u8g.setPrintPos(SIGNALX-40, SIGNALY+10);
+   u8g.print("RSSI:");
 switch(rssiValue)
 {
   
   case 0:
   {
-    u8g.setFont(u8g_font_unifont);
-    u8g.setPrintPos(SIGNALX-5, SIGNALY+11);
+    u8g.setFont(u8g_font_5x7);
+    u8g.setPrintPos(SIGNALX-10, SIGNALY+10);
    u8g.print("X");
 
  break;
@@ -153,7 +164,7 @@ switch(rssiValue)
   
   case 1:
   {
-   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+  u8g.drawBox(SIGNALX-15,SIGNALY+8,4,2);//small
 
     break;
 
@@ -161,9 +172,9 @@ switch(rssiValue)
 
   case 2:
   {
-  u8g.drawBox(SIGNALX-10,SIGNALY+7,4,6);
+   u8g.drawBox(SIGNALX-10,SIGNALY+6,4,4);
 
-   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+   u8g.drawBox(SIGNALX-15,SIGNALY+8,4,2);//small
 
 
     break;
@@ -174,11 +185,11 @@ switch(rssiValue)
   case 3:
   {
 
-   u8g.drawBox(SIGNALX-5,SIGNALY+4,4,9);
+   u8g.drawBox(SIGNALX-5,SIGNALY+4,4,6);
 
-   u8g.drawBox(SIGNALX-10,SIGNALY+7,4,6);
+   u8g.drawBox(SIGNALX-10,SIGNALY+6,4,4);
 
-   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+   u8g.drawBox(SIGNALX-15,SIGNALY+8,4,2);//small
 
 
    break;  
@@ -187,13 +198,13 @@ switch(rssiValue)
 
   case 4:
   {
-     u8g.drawBox(SIGNALX,SIGNALY+1,4,12);  
+     u8g.drawBox(SIGNALX,SIGNALY+2,4,8);  
 
-   u8g.drawBox(SIGNALX-5,SIGNALY+4,4,9);
+   u8g.drawBox(SIGNALX-5,SIGNALY+4,4,6);
 
-   u8g.drawBox(SIGNALX-10,SIGNALY+7,4,6);
+   u8g.drawBox(SIGNALX-10,SIGNALY+6,4,4);
 
-   u8g.drawBox(SIGNALX-15,SIGNALY+10,4,3);
+   u8g.drawBox(SIGNALX-15,SIGNALY+8,4,2);//small
 
    break;
     
@@ -277,18 +288,24 @@ void setup() {
 void loop() {
 
   SOC = gauge.getSOC();
-  VBatt = gauge.getVoltage();
+    VBatt = gauge.getVoltage();
 RoundSOC = SOC;
+
   // picture loop
+  if (displaycycle == 10)
+  {    
   u8g.firstPage();  
   do {
     draw();
   } while( u8g.nextPage() );
+  displaycycle = 0;
+  }
 
   
 
  rssiDur = pulseIn(6, LOW, 200);
  rssiValue = map(rssiDur, 0, 200, 0, 4);
+
  
   if (error == 1)
   {
@@ -330,7 +347,9 @@ RoundSOC = SOC;
     Serial.write(message, 23);
 
   }
-  delay(50);
+  delay(10);
+
+  displaycycle = displaycycle +1;
 }
 
 void lowPower() { alert = true; }
