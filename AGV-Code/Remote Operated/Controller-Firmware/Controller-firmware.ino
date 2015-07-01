@@ -37,6 +37,8 @@ char message[23];
 int rssiDur;
 int rssiValue;
 
+byte EnableTransmission = 0;
+
 char displaymessage[20] = "NO CONNECTION";
 
 char statusmessage[10] = "NONE";
@@ -105,15 +107,27 @@ else {
     else
     u8g.print("Digital");
 
+ if (EnableTransmission == 1)
+    {
+       u8g.setFont(u8g_font_u8glib_4);
+       u8g.setPrintPos(0, 49);
+      u8g.print("Transmission Enabled");
+    }
+    else
+    {
+            u8g.setFont(u8g_font_u8glib_4);
+       u8g.setPrintPos(0, 49);
+      u8g.print("Transmission Disabled"); 
+    }
+
+
 u8g.setFont(u8g_font_5x7);
   u8g.setPrintPos(0, 28);
  u8g.print("Messages:");
   u8g.setPrintPos(0, 38);
  u8g.print(displaymessage);
  
-
-
-u8g.drawHLine(0, 54, 128);
+ u8g.drawHLine(0, 54, 128);
 
 u8g.setPrintPos(0, 62);
  u8g.print("System Status:");
@@ -349,6 +363,28 @@ if(Serial.available() >= 23)
   if (error == 1)
   {
     //Safe mode for RC system, sets speed to 0;
+    
+        message[0] = 0;
+    message[1] = 0; //ps2x.Button(PSB_START);
+    message[2] = 0;//ps2x.Button(PSB_SELECT);
+    message[3] = 127; //ps2x.Button(PSS_LY);
+    message[4] = 127; //ps2x.Button(PSS_LX);
+    message[5] = 127; //ps2x.Button(PSS_RY);
+    message[6] = 127; //ps2x.Button(PSS_RX);
+    message[7] = 0; //ps2x.Button(PSB_PAD_UP);
+    message[8] = 0; //ps2x.Button(PSB_PAD_DOWN);
+    message[9] = 0; //ps2x.Button(PSB_PAD_LEFT);
+    message[10] = 0; //ps2x.Button(PSB_PAD_RIGHT);
+    message[11] = 0; //ps2x.Button(PSB_TRIANGLE);
+    message[12] = 0; //ps2x.Button(PSB_CIRCLE);
+    message[13] = 0; //ps2x.Button(PSB_SQUARE);
+    message[14] = 0; //ps2x.Button(PSB_CROSS);
+    message[15] = 0; //ps2x.Button(PSB_L1);
+    message[16] = 0; // ps2x.Button(PSB_L2);
+    message[17] = 0; //ps2x.Button(PSB_L3);
+    message[18] = 0; //ps2x.Button(PSB_R1);
+    message[19] = 0; //ps2x.Button(PSB_R2);
+    message[20] = 0; //ps2x.Button(PSB_R3);
   }
 
   else { //DualShock Controller
@@ -375,17 +411,59 @@ if(Serial.available() >= 23)
     message[18] = ps2x.Button(PSB_R1);
     message[19] = ps2x.Button(PSB_R2);
     message[20] = ps2x.Button(PSB_R3);
+    
+  }
+    
+    if ( message[1]  == 1)
+    {
+      EnableTransmission = !EnableTransmission;
+    }
+    else
+    {
+      EnableTransmission = EnableTransmission;
+    }
 
-
+//memset(&arr[0], 0, sizeof(arr));
 
     checksum = crcSlow((unsigned char *)message, 21);
 
     message[21] =   (checksum >> 8);
     message[22] =   (checksum);
 
-    //Serial.write(message, 23);
-
-  }
+  if (EnableTransmission == 1)
+    {
+      Serial.write(message, 23);
+    }
+    else
+    {      
+    message[0] = 0;
+    message[1] = 0; //ps2x.Button(PSB_START);
+    message[2] = 0;//ps2x.Button(PSB_SELECT);
+    message[3] = 127; //ps2x.Button(PSS_LY);
+    message[4] = 127; //ps2x.Button(PSS_LX);
+    message[5] = 127; //ps2x.Button(PSS_RY);
+    message[6] = 127; //ps2x.Button(PSS_RX);
+    message[7] = 0; //ps2x.Button(PSB_PAD_UP);
+    message[8] = 0; //ps2x.Button(PSB_PAD_DOWN);
+    message[9] = 0; //ps2x.Button(PSB_PAD_LEFT);
+    message[10] = 0; //ps2x.Button(PSB_PAD_RIGHT);
+    message[11] = 0; //ps2x.Button(PSB_TRIANGLE);
+    message[12] = 0; //ps2x.Button(PSB_CIRCLE);
+    message[13] = 0; //ps2x.Button(PSB_SQUARE);
+    message[14] = 0; //ps2x.Button(PSB_CROSS);
+    message[15] = 0; //ps2x.Button(PSB_L1);
+    message[16] = 0; // ps2x.Button(PSB_L2);
+    message[17] = 0; //ps2x.Button(PSB_L3);
+    message[18] = 0; //ps2x.Button(PSB_R1);
+    message[19] = 0; //ps2x.Button(PSB_R2);
+    message[20] = 0; //ps2x.Button(PSB_R3);
+    checksum = crcSlow((unsigned char *)message, 21);
+    message[21] =   (checksum >> 8);
+    message[22] =   (checksum);
+    Serial.write(message, 23);
+      
+    }
+  
   delay(10);
 
   displaycycle = displaycycle +1;
