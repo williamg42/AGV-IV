@@ -37,6 +37,12 @@ char message[23];
 int rssiDur;
 int rssiValue;
 
+char displaymessage[20] = "NO CONNECTION";
+
+char statusmessage[10] = "NONE";
+
+char ReadArr[23];
+
 int displaycycle = 0;
 
 const uint8_t battery_bitmap[] U8G_PROGMEM = {
@@ -79,10 +85,41 @@ volatile boolean alert = false;
 void draw(void) {
   // graphic commands to redraw the complete screen should be placed here
 
-  u8g.setFont(u8g_font_5x7);
-    u8g.setPrintPos(50, 50);
-   u8g.print(SOC);
+  u8g.drawHLine(0, 19, 128);
 
+  u8g.setFont(u8g_font_u8glib_4);
+if (error == 0) {
+  u8g.setPrintPos(0, 17);
+ u8g.print("Controller Detected");
+}
+else {
+  u8g.setPrintPos(0, 17);
+ u8g.print("Controller Error");
+}
+
+ u8g.setPrintPos(90, 17);
+
+
+  if (pressures)
+     u8g.print("Analog");
+    else
+    u8g.print("Digital");
+
+u8g.setFont(u8g_font_5x7);
+  u8g.setPrintPos(0, 28);
+ u8g.print("Messages:");
+  u8g.setPrintPos(0, 38);
+ u8g.print(displaymessage);
+ 
+
+
+u8g.drawHLine(0, 54, 128);
+
+u8g.setPrintPos(0, 62);
+ u8g.print("System Status:");
+
+ u8g.setPrintPos(72, 62);
+ u8g.print(statusmessage);
    
 if (RoundSOC >= 100)
 {
@@ -210,14 +247,12 @@ switch(rssiValue)
     
   }
 }
-
-  
 }
 
 
 
 void setup() {
- pinMode(RESET, OUTPUT); 
+
 
    if ( u8g.getMode() == U8G_MODE_R3G3B2 ) {
     u8g.setColorIndex(255);     // white
@@ -233,10 +268,7 @@ void setup() {
   }
 
   
-  digitalWrite(RESET, HIGH);   // sets the LED on
-   digitalWrite(RESET, LOW);    // sets the LED off
-   delay(10);                  // waits for a second
-  digitalWrite(RESET, HIGH);    // sets the LED off
+ 
 
   Serial.begin(57600);
   
@@ -246,39 +278,10 @@ void setup() {
 // Sets the Alert Threshold to 10% of full capacity
   gauge.setAlertThreshold(10);
 
-  delay(1000);  //added delay to give wireless ps2 module some time to startup, before configuring it
+  delay(300);  //added delay to give wireless ps2 module some time to startup, before configuring it
  
   //setup pins and settings: GamePad(clock, command, attention, data, Pressures?, Rumble?) check for error
-  error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
-
-  if (error == 0) {
-    Serial.println("Found Controller, configured successful ");
-    Serial.println("pressures = ");
-    if (pressures)
-      Serial.println("true ");
-    else
-    Serial.println("false");
-    
-    Serial.println("rumble = ");
-    if (rumble)
-      Serial.println("true)");
-    else
-      Serial.println("false");
-  }
-  else if (error == 1)
-  {
-    
-    Serial.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
-  }
-  else if (error == 2)
-  {
-    
-    Serial.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
-  }
-  else if (error == 3)
-  {
-    Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
-  }
+ error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
 
 }
 
@@ -306,6 +309,42 @@ RoundSOC = SOC;
  rssiDur = pulseIn(6, LOW, 200);
  rssiValue = map(rssiDur, 0, 200, 0, 4);
 
+if(Serial.available() >= 23)
+{
+  Serial.readBytes(ReadArr,23);
+  if(crcSlow((unsigned char *)ReadArr, 23) > 0)
+  {
+    //error, bad message
+  }
+
+  else
+  {
+    //good message, parse data
+    switch(ReadArr[0])
+    {
+      case 17:
+      {
+         memcpy(displaymessage, &ReadArr[1], sizeof(byte) * 20);
+        break;
+      }
+
+      case 34:
+      {
+
+         memcpy(statusmessage, &ReadArr[1], sizeof(byte) * 10);
+
+        break;
+      }
+
+      default:
+      {
+        
+        break;
+      }
+    }
+    
+  }
+}
  
   if (error == 1)
   {
@@ -344,7 +383,7 @@ RoundSOC = SOC;
     message[21] =   (checksum >> 8);
     message[22] =   (checksum);
 
-    Serial.write(message, 23);
+    //Serial.write(message, 23);
 
   }
   delay(10);
