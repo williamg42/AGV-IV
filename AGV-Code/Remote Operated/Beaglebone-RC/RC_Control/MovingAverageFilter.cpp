@@ -13,7 +13,7 @@ MovingAverageFilter::MovingAverageFilter(char newDataPointsCount) {
 	else
 		dataPointsCount = MAX_DATA_POINTS;
 	for (i = 0; i < dataPointsCount; i++) {
-		values[i] = 0; // fill the array with 0's
+		values[i] = 127; // fill the array with 127's, motors do not move
 	}
 }
 double MovingAverageFilter::process(double in) {
