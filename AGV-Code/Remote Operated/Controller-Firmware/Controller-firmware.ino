@@ -362,7 +362,7 @@ if(Serial.available() >= 23)
  
   if (error == 1)
   {
-    //Safe mode for RC system, sets speed to 0;
+    //Controller not detected. Sending all off data
     
         message[0] = 0;
     message[1] = 0; //ps2x.Button(PSB_START);
@@ -385,6 +385,12 @@ if(Serial.available() >= 23)
     message[18] = 0; //ps2x.Button(PSB_R1);
     message[19] = 0; //ps2x.Button(PSB_R2);
     message[20] = 0; //ps2x.Button(PSB_R3);
+    checksum = crcSlow((unsigned char *)message, 21);
+    message[21] =   (checksum >> 8);
+    message[22] =   (checksum);
+    Serial.write(message, 23);
+    
+    
   }
 
   else { //DualShock Controller
