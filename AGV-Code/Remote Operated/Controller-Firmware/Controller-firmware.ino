@@ -422,7 +422,7 @@ if(Serial.available() >= 23)
     if ( message[1]  == 1)
     {
       EnableTransmission = !EnableTransmission;
-      delay(300);
+     delay(100);
     }
     else
     {
