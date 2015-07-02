@@ -193,6 +193,20 @@ else if (RoundSOC >= 35  && RoundSOC < 45)
 {
   u8g.drawBox(BATICONX+2,BATICONY+8,4,4); 
 }
+
+else if (RoundSOC >= 25  && RoundSOC < 35)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+9,4,3); 
+}
+
+else if (RoundSOC >= 15  && RoundSOC < 25)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+10,4,2); 
+}
+else if (RoundSOC >= 5  && RoundSOC < 15)
+{
+  u8g.drawBox(BATICONX+2,BATICONY+11,4,1); 
+}
      
   }
 
