@@ -309,14 +309,13 @@ void loop() {
 RoundSOC = SOC;
 
   // picture loop
-  if (displaycycle == 10)
-  {    
+  
   u8g.firstPage();  
   do {
     draw();
   } while( u8g.nextPage() );
   displaycycle = 0;
-  }
+  
 
   
 
@@ -423,6 +422,7 @@ if(Serial.available() >= 23)
     if ( message[1]  == 1)
     {
       EnableTransmission = !EnableTransmission;
+      delay(300);
     }
     else
     {
@@ -469,10 +469,7 @@ if(Serial.available() >= 23)
     Serial.write(message, 23);
       
     }
-  
-  delay(10);
 
-  displaycycle = displaycycle +1;
 }
 
 void lowPower() { alert = true; }
