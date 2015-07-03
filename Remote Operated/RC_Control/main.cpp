@@ -20,14 +20,10 @@ long map(long x, long in_min, long in_max, long out_min, long out_max);
 
 char readArr[21];
 
-char inByte[1] = { 255 };
-
 bool startbutton, selectbutton, L3, R3 = 0;
 
 int LY, LX, RY, RX, Up, Down, Left, Right, X, triangle, square1, circle, L1, L2,
 		R1, R2 = 0;
-
-uint8_t LIGHT = 0;
 
 
 
@@ -38,21 +34,15 @@ int main() {
 
 	PRUPWM *myPWM = new PRUPWM();
 
-		PRUPWM *Lights = new PRUPWM(); //lights are 27 and 30
-
+		
 
 	// Set a 2s failsafe timeout
 	myPWM->setFailsafeTimeout(2000);
 
-	// Set a 2s failsafe timeout
-	Lights->setFailsafeTimeout(2000);
-
-	Lights->setFailsafeValue(2, 0);
-	Lights->setFailsafeValue(5, 0);
 
 	// Start the PRU
 	myPWM->start();
-	Lights->start();
+
 
 	BlackLib::BlackUART UART1(BlackLib::UART1, BlackLib::Baud57600,
 			BlackLib::ParityNo, BlackLib::StopOne, BlackLib::Char8);
@@ -108,29 +98,16 @@ int main() {
 				R2 = readArr[19];
 				R3 = readArr[20];
 
-				if (LIGHT = 0)
-				{
-					LIGHT = LIGHT + (15*Up);
-				}
-				else if (LIGHT = 255)
-				{
-					LIGHT = LIGHT - (15*Down);
-				}
-				else
-				LIGHT = LIGHT + (15*Up) - (15*Down);
 
 				long Left = LeftChannel.process(LY);
 				long Right = RightChannel.process(RY);
 
 				int pru0 = map(Left, 0, 255, 670000, 2330000);
 				int pru1 = map(Right, 0, 255, 670000, 2330000);
-				int lightValue = (LIGHT, 0, 255, 0, 20000000);
+
 
 				myPWM->setChannelValue(0, pru0); //Left Motor
 				myPWM->setChannelValue(7, pru1); //Right Motor
-
-				Lights->setChannelValue(2, lightValue); //Left Motor
-				Lights->setChannelValue(5, lightValue); //Right Motor
 
 				readArr[0] = 255;
 
