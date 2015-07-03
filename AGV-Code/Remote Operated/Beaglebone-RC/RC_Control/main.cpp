@@ -110,14 +110,14 @@ int main() {
 
 				if (LIGHT = 0)
 				{
-					LIGHT = LIGHT + (15*UP);
+					LIGHT = LIGHT + (15*Up);
 				}
 				else if (LIGHT = 255)
 				{
 					LIGHT = LIGHT - (15*Down);
 				}
 				else
-				LIGHT = LIGHT + (15*UP) - (15*Down);
+				LIGHT = LIGHT + (15*Up) - (15*Down);
 
 				long Left = LeftChannel.process(LY);
 				long Right = RightChannel.process(RY);
