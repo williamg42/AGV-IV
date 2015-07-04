@@ -26,6 +26,7 @@ bool startbutton, selectbutton, L3, R3 = 0;
 int LY, LX, RY, RX, Up, Down, Left, Right, X, triangle, square1, circle, L1, L2,
 		R1, R2 = 0;
 
+bool Lights = false;
 
 
 MovingAverageFilter LeftChannel(100);
@@ -34,7 +35,8 @@ MovingAverageFilter RightChannel(100);
 int main() {
 
 	PRUPWM *myPWM = new PRUPWM();
-
+	BlackLib::BlackGPIO  FloodLights(BlackLib::GPIO_60, BlackLib::output);
+	FloodLights.setValue(BlackLib::low);
 		
 
 	// Set a 2s failsafe timeout
@@ -99,6 +101,13 @@ int main() {
 				R2 = readArr[19];
 				R3 = readArr[20];
 
+				if(X == 1)
+				{
+					Lights = !Lights;
+				}
+
+
+				FloodLights.setValue(Lights);
 
 				long Left = LeftChannel.process(LY);
 				long Right = RightChannel.process(RY);
@@ -110,10 +119,14 @@ int main() {
 				myPWM->setChannelValue(0, pru0); //Left Motor
 				myPWM->setChannelValue(7, pru1); //Right Motor
 
+				if()
+
 				readArr[0] = 255;
 
 			}
 		}
+
+
 	}
 
 	return 0;
