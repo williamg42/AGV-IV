@@ -32,11 +32,13 @@
                 "P9.25",        /* PRU PWM */
                 
                 "P9.11",	/* LED indicator */
+		"P9.12",	/* Flood Lights */
        /* the hardware ip uses */
 		"i2c1",
 		"uart1",
                 "uart2",
                 "gpio0_30",
+		"gpio1_28",
 		"pruss";
  	 
 
@@ -83,7 +85,8 @@
 					};
 					
 			LED_Indicator: pinmux_LED_Indicator {
-                		pinctrl-single,pins = <0x070 0xf>;
+                		pinctrl-single,pins = <0x070 0xf
+							0x78 0xf>;
             				};
 
 
