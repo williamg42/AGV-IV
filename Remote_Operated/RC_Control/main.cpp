@@ -28,6 +28,7 @@ int LY, LX, RY, RX, Up, Down, Left, Right, X, triangle, square1, circle, L1, L2,
 
 bool Lights = false;
 
+int pastx = 0;
 
 MovingAverageFilter LeftChannel(100);
 MovingAverageFilter RightChannel(100);
@@ -73,7 +74,7 @@ int main() {
 
 		if (UART2.Byteavailable() > 19) {
 
-			usleep(1000);
+			usleep(2000);
 
 			UART2.read(readArr, sizeof readArr);
 
@@ -101,13 +102,20 @@ int main() {
 				R2 = readArr[19];
 				R3 = readArr[20];
 
-				if(X == 1)
-				{
+
+
+
+
+				if(X ==  0 && pastx != 0)
+				{	
 					Lights = !Lights;
+					
 				}
 
-
-				FloodLights.setValue(Lights);
+				if(Lights)
+				FloodLights.setValue(BlackLib::high);
+				else
+				FloodLights.setValue(BlackLib::low);
 
 				long Left = LeftChannel.process(LY);
 				long Right = RightChannel.process(RY);
@@ -119,9 +127,10 @@ int main() {
 				myPWM->setChannelValue(0, pru0); //Left Motor
 				myPWM->setChannelValue(7, pru1); //Right Motor
 
-				if()
+				
 
 				readArr[0] = 255;
+				pastx = X;
 
 			}
 		}
@@ -135,4 +144,5 @@ int main() {
 long map(long x, long in_min, long in_max, long out_min, long out_max) {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+
 
