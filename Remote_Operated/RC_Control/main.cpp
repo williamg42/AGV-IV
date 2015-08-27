@@ -89,7 +89,7 @@ int main() {
 	message[9] = ' ';
 	message[10] = ' ';
 	message[11] = ' ';
-	for (int g = 0, g <20, g++)
+	for (int g = 0; g <20; g++)
 	{
 		message[g]=0;
 	}
