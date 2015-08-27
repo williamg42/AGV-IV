@@ -116,7 +116,7 @@ int main() {
 
 			//check packets to see if they are good.
 
-			if (crcFast((unsigned char *)ReadArr, 23) > 0)
+			if (crcFast((unsigned char *) readArr, 23) > 0)
 			{
 				//error, bad message
 
