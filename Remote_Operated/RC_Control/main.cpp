@@ -14,6 +14,7 @@
  #include <stdint.h>
 #include "pruPWM.h"
 #include "BlackUART.h"
+#include "crc.h"
  #include "BlackGPIO.h"
 #include "MovingAverageFilter.h"
 
@@ -77,6 +78,11 @@ int main() {
 			usleep(2000);
 
 			UART2.read(readArr, sizeof readArr);
+			
+			//check packets to see if they are good.
+			
+			 /////////////////////////////////////////////////////////////
+			
 
 			if (readArr[0] == 0) {
 
