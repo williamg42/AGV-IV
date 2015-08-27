@@ -71,7 +71,7 @@ typedef unsigned long  crc;
 
 void  crcInit(void);
 crc   crcSlow(unsigned char const message[], int nBytes);
-//crc   crcFast(unsigned char const message[], int nBytes);
+crc   crcFast(unsigned char const message[], int nBytes);
 
 
 #endif /* _crc_h */
