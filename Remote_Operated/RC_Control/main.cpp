@@ -177,6 +177,11 @@ int main() {
 
 			myPWM->setChannelValue(0, pru0); //Left Motor
 			myPWM->setChannelValue(7, pru1); //Right Motor
+			
+			
+				UART2.write("1");
+				
+				usleep ((7 + 25) * 1); 
 
 
 
