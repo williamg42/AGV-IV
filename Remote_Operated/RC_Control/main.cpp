@@ -75,40 +75,12 @@ int main() {
 		exit(1);
 	}
 
-	//send status message
-
-	message[0] = 34;
-	message[1] = 'A';
-	message[2] = 'C';
-	message[3] = 'T';
-	message[4] = 'I';
-	message[5] = 'V';
-	message[6] = 'E';
-	message[7] = ' ';
-	message[8] = ' ';
-	message[9] = ' ';
-	message[10] = ' ';
-	message[11] = ' ';
-	for (int g = 0; g <20; g++)
-	{
-		message[g]=0;
-	}
-
-	checksum = crcFast((unsigned char *)message, 23);
-
-	message[21] =   (checksum >> 8);
-    message[22] =   (checksum);
-
-	UART2.write(message, sizeof message);
-
-	usleep(2000);
-
 
 	while (1) {
 
 		readArr[0] = 255;
 
-		if (UART2.Byteavailable() > 22) {
+		if (UART2.Byteavailable() > 19) {
 
 			usleep(2000);
 
@@ -119,6 +91,8 @@ int main() {
 			if (crcFast((unsigned char *) readArr, 23) > 0)
 			{
 				//error, bad message
+				
+				std::cout << "Message Bad" << std::endl;
 
 				startbutton = readArr[1]; //start (boolean)
 				selectbutton = readArr[2]; //select (boolean)
@@ -192,6 +166,10 @@ int main() {
 
 			long Left = LeftChannel.process(LY);
 			long Right = RightChannel.process(RY);
+			
+			std::cout << Left << std::endl;
+			std::cout << Right << std::endl;
+			
 
 			int pru0 = map(Left, 0, 255, 670000, 2330000);
 			int pru1 = map(Right, 0, 255, 670000, 2330000);
