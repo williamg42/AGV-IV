@@ -88,7 +88,7 @@ int main() {
 
 			//check packets to see if they are good.
 
-			if (crcFast((unsigned char *) readArr, 23) > 0)
+			if (0) //crcFast((unsigned char *) readArr, 23) > 0)
 			{
 				//error, bad message
 				
@@ -179,9 +179,9 @@ int main() {
 			myPWM->setChannelValue(7, pru1); //Right Motor
 			
 			
-				UART2.write("1");
+				//UART2.write("1");
 				
-				usleep ((7 + 25) * 1); 
+			//	usleep ((7 + 25) * 1); 
 
 
 
