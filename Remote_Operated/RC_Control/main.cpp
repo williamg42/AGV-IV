@@ -88,10 +88,10 @@ int main() {
 
 			//check packets to see if they are good.
 
-			if (crcFast((unsigned char *) readArr, 23) > 0)
+			if (0)//crcFast((unsigned char *) readArr, 23) > 0)
 			{
 				//error, bad message
-				
+
 				std::cout << "Message Bad" << std::endl;
 
 				startbutton = readArr[1]; //start (boolean)
@@ -166,10 +166,10 @@ int main() {
 
 			long Left = LeftChannel.process(LY);
 			long Right = RightChannel.process(RY);
-			
+
 			std::cout << Left << std::endl;
 			std::cout << Right << std::endl;
-			
+
 
 			int pru0 = map(Left, 0, 255, 670000, 2330000);
 			int pru1 = map(Right, 0, 255, 670000, 2330000);
@@ -177,11 +177,11 @@ int main() {
 
 			myPWM->setChannelValue(0, pru0); //Left Motor
 			myPWM->setChannelValue(7, pru1); //Right Motor
-			
-			
-				UART2.write("1");
-				
-				usleep ((7 + 25) * 1); 
+
+
+			UART2.write("1");
+
+			usleep ((7 + 25) * 1);
 
 
 
