@@ -336,77 +336,8 @@ RoundSOC = SOC;
  rssiDur = pulseIn(6, LOW, 200);
  rssiValue = map(rssiDur, 0, 200, 0, 4);
 
-if(Serial.available() >= 23)
-{
-  Serial.readBytes(ReadArr,23);
-  if(crcSlow((unsigned char *)ReadArr, 23) > 0)
-  {
-    //error, bad message
-  }
 
-  else
-  {
-    //good message, parse data
-    switch(ReadArr[0])
-    {
-      case 17:
-      {
-         memcpy(displaymessage, &ReadArr[1], sizeof(byte) * 20);
-        break;
-      }
-
-      case 34:
-      {
-
-         memcpy(statusmessage, &ReadArr[1], sizeof(byte) * 10);
-
-        break;
-      }
-
-      default:
-      {
-        
-        break;
-      }
-    }
-    
-  }
-}
- 
-  if (error == 1)
-  {
-    //Controller not detected. Sending all off data
-    
-        message[0] = 0;
-    message[1] = 0; //ps2x.Button(PSB_START);
-    message[2] = 0;//ps2x.Button(PSB_SELECT);
-    message[3] = 127; //ps2x.Button(PSS_LY);
-    message[4] = 127; //ps2x.Button(PSS_LX);
-    message[5] = 127; //ps2x.Button(PSS_RY);
-    message[6] = 127; //ps2x.Button(PSS_RX);
-    message[7] = 0; //ps2x.Button(PSB_PAD_UP);
-    message[8] = 0; //ps2x.Button(PSB_PAD_DOWN);
-    message[9] = 0; //ps2x.Button(PSB_PAD_LEFT);
-    message[10] = 0; //ps2x.Button(PSB_PAD_RIGHT);
-    message[11] = 0; //ps2x.Button(PSB_TRIANGLE);
-    message[12] = 0; //ps2x.Button(PSB_CIRCLE);
-    message[13] = 0; //ps2x.Button(PSB_SQUARE);
-    message[14] = 0; //ps2x.Button(PSB_CROSS);
-    message[15] = 0; //ps2x.Button(PSB_L1);
-    message[16] = 0; // ps2x.Button(PSB_L2);
-    message[17] = 0; //ps2x.Button(PSB_L3);
-    message[18] = 0; //ps2x.Button(PSB_R1);
-    message[19] = 0; //ps2x.Button(PSB_R2);
-    message[20] = 0; //ps2x.Button(PSB_R3);
-    checksum = crcSlow((unsigned char *)message, 21);
-    message[21] =   (checksum >> 8);
-    message[22] =   (checksum);
-    Serial.write(message, 23);
-    
-    
-  }
-
-  else { //DualShock Controller
+  //DualShock Controller
     ps2x.read_gamepad(); //read controller
 
     message[0] = 0;
@@ -431,7 +362,7 @@ if(Serial.available() >= 23)
     message[19] = ps2x.Button(PSB_R2);
     message[20] = ps2x.Button(PSB_R3);
     
-  }
+  
     
     if ( message[1]  == 1)
     {
@@ -443,7 +374,6 @@ if(Serial.available() >= 23)
       EnableTransmission = EnableTransmission;
     }
 
-//memset(&arr[0], 0, sizeof(arr));
 
     checksum = crcSlow((unsigned char *)message, 21);
 
@@ -453,35 +383,16 @@ if(Serial.available() >= 23)
   if (EnableTransmission == 1)
     {
       Serial.write(message, 23);
+      
+        while(Serial.available() == 0) {
+        }
+              
+                char incomingByte = Serial.read();
+      
     }
     else
     {      
-    message[0] = 0;
-    message[1] = 0; //ps2x.Button(PSB_START);
-    message[2] = 0;//ps2x.Button(PSB_SELECT);
-    message[3] = 127; //ps2x.Button(PSS_LY);
-    message[4] = 127; //ps2x.Button(PSS_LX);
-    message[5] = 127; //ps2x.Button(PSS_RY);
-    message[6] = 127; //ps2x.Button(PSS_RX);
-    message[7] = 0; //ps2x.Button(PSB_PAD_UP);
-    message[8] = 0; //ps2x.Button(PSB_PAD_DOWN);
-    message[9] = 0; //ps2x.Button(PSB_PAD_LEFT);
-    message[10] = 0; //ps2x.Button(PSB_PAD_RIGHT);
-    message[11] = 0; //ps2x.Button(PSB_TRIANGLE);
-    message[12] = 0; //ps2x.Button(PSB_CIRCLE);
-    message[13] = 0; //ps2x.Button(PSB_SQUARE);
-    message[14] = 0; //ps2x.Button(PSB_CROSS);
-    message[15] = 0; //ps2x.Button(PSB_L1);
-    message[16] = 0; // ps2x.Button(PSB_L2);
-    message[17] = 0; //ps2x.Button(PSB_L3);
-    message[18] = 0; //ps2x.Button(PSB_R1);
-    message[19] = 0; //ps2x.Button(PSB_R2);
-    message[20] = 0; //ps2x.Button(PSB_R3);
-    checksum = crcSlow((unsigned char *)message, 21);
-    message[21] =   (checksum >> 8);
-    message[22] =   (checksum);
-    Serial.write(message, 23);
-      
+   
     }
 
 }
