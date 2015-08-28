@@ -318,6 +318,7 @@ void setup() {
 
 void loop() {
 
+
   SOC = gauge.getSOC();
     VBatt = gauge.getVoltage();
 RoundSOC = SOC;
@@ -361,7 +362,9 @@ RoundSOC = SOC;
     message[18] = ps2x.Button(PSB_R1);
     message[19] = ps2x.Button(PSB_R2);
     message[20] = ps2x.Button(PSB_R3);
-    
+
+
+ 
   
     
     if ( message[1]  == 1)
