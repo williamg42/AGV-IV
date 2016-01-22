@@ -1,0 +1,16 @@
+
+[Unit]
+
+Description=Activates RC control
+
+[Service]
+
+Type=oneshot
+
+RemainAfterExit=true
+
+ExecStart=/opt/RC/RC.sh
+
+[Install]
+
+WantedBy=multi-user.target
