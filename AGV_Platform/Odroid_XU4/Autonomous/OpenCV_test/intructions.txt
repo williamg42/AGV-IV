@@ -1,0 +1,3 @@
+To compile run 
+
+g++ -o cam `pkg-config opencv --cflags` cam_algorithm.cpp Segmenting.cpp `pkg-config opencv --libs`
