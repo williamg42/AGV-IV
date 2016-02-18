@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1455813651 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
+	<opencv2/opencv.hpp>
+	"opencv2/core/core.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	"opencv2/video/background_segm.hpp"
+	"opencv2/highgui/highgui.hpp"
+	<iostream>
+	<vector>
+	<stdio.h>
+	<fstream>
+	<time.h>
+	<string>
+	<ctype.h>
+	<math.h>
+	<sstream>
+	"Segmenting.hpp"
+	"opencv2/opencv.hpp"
+
+1454618375 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	<iostream>
+	<stdio.h>
+
+1455813680 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
+	"Segmenting.hpp"
+
