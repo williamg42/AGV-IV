@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="BGR2HSI2.cpp" />
+		<Unit filename="BGR2HSI2.hpp" />
 		<Unit filename="Segmenting.cpp" />
 		<Unit filename="Segmenting.hpp" />
 		<Unit filename="main.cpp" />

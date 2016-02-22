@@ -26,11 +26,14 @@ using namespace cv;
 
 int main(int, char**)
 {
-    VideoCapture cap(1); // open the default camera
+    VideoCapture cap(0); // open the default camera
+    cap.set(CAP_PROP_FORMAT, CV_8UC3);
+    cap.set(CAP_PROP_FRAME_WIDTH, 320);
+    cap.set(CAP_PROP_FRAME_HEIGHT, 240);
     if(!cap.isOpened())  // check if we succeeded
         return -1;
 
-    Size size(480, 320);
+
     Mat processed;
 
     namedWindow("Linear Blend", 1);
@@ -49,15 +52,16 @@ int main(int, char**)
         cvtColor(processed,blend, CV_GRAY2BGR);
 
         beta = ( 1.0 - alpha );
-        resize(frame, frame, size); //resize image
+
         addWeighted( frame, alpha, blend,  beta, 0.0, blend);
 
         imshow( "Linear Blend", blend );
 
-        if(waitKey(5) >= 0) break;
+        if(waitKey(30) >= 0) break;
     }
     // the camera will be deinitialized automatically in VideoCapture destructor
     return 0;
+
 }
 
 //cv::Mat frame;

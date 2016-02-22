@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1455813651 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
+1455978266 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
 	<opencv2/opencv.hpp>
 	"opencv2/core/core.hpp"
 	"opencv2/imgproc/imgproc.hpp"
@@ -17,12 +17,27 @@
 	"Segmenting.hpp"
 	"opencv2/opencv.hpp"
 
-1454618375 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
+1455818946 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
 	"opencv2/highgui/highgui.hpp"
 	"opencv2/imgproc/imgproc.hpp"
+	"BGR2HSI2.hpp"
 	<iostream>
 	<stdio.h>
 
-1455813680 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
+1455832794 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
 	"Segmenting.hpp"
+
+1455832084 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.cpp
+	"BGR2HSI2.hpp"
+
+1455817579 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.h
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	<stdio.h>
+
+1455824377 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.hpp
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	<stdio.h>
+	<iostream>
 
