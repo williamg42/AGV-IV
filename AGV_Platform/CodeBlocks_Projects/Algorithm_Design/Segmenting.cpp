@@ -10,8 +10,8 @@ cv::Mat SEGMENT(cv::Mat Photo)
 {
     int x = 320;
     int y = 240;
-    int threshold_hue = 60;
-    int threshold_v = 80;
+    int threshold_hue = 50;
+    int threshold_v = 70;
 
 
     Mat src, srcclone, photoclone, dst;
@@ -131,7 +131,7 @@ cv::Mat SEGMENT(cv::Mat Photo)
     Mat Result;
     bitwise_or(Int_mask, hue_mask, Result);
     Mat element = getStructuringElement(MORPH_RECT, Size(2 * 2 + 1, 2 * 2 + 1), Point(2, 2));
-    erode(Result, Result, element);
+    morphologyEx( Result, Result, MORPH_OPEN, element );
 
     return Result;
 
