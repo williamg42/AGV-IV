@@ -36,7 +36,7 @@ int main(int, char**)
 
     Mat processed;
 
-    namedWindow("Linear Blend", 1);
+    namedWindow("Linear Blend", 2);
 
     Mat blend;
     double alpha = 0.5;

@@ -25,8 +25,11 @@ cv::Mat SEGMENT(cv::Mat Photo)
     /// Separate the image in 3 places ( B, G and R )
 
 
-    //cvtColor(srcclone, src, CV_BGR2HSV_FULL);
-    src = BGR2HSI2(srcclone);
+    cvtColor(srcclone, src, CV_BGR2HSV);
+    //src = BGR2HSI2(srcclone);
+
+    namedWindow("hsv");
+    imshow("hsv", src);
 
 
     Mat mask = Mat::zeros(y, x, CV_8U);
@@ -34,8 +37,8 @@ cv::Mat SEGMENT(cv::Mat Photo)
 
     contour.push_back(Point(x, y));
     contour.push_back(Point(0, y));
-    contour.push_back(Point((x / 2 - .15 * x), y - y / 2.5)); //value on Y controls depth into the photo, decimal controls width of box
-    contour.push_back(Point((x / 2 + .15 * x), y - y / 2.5));
+    contour.push_back(Point((x / 2 - .1 * x), y - y / 4  )); //value on Y controls depth into the photo, decimal controls width of box
+    contour.push_back(Point((x / 2 + .1 * x), y - y / 4));
 
 
     // For debugging purposes, draw green lines connecting those points
