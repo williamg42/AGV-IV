@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1456333777 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
+1458849835 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
+	<Windows.h>
 	<opencv2/opencv.hpp>
 	"opencv2/core/core.hpp"
 	"opencv2/imgproc/imgproc.hpp"
@@ -14,8 +15,15 @@
 	<ctype.h>
 	<math.h>
 	<sstream>
+	<thread>
+	<mutex>
+	<queue>
+	<atomic>
 	"Segmenting.hpp"
 	"opencv2/opencv.hpp"
+	"mingw.mutex.h"
+	"mingw.condition_variable.h"
+	"mingw.thread.h"
 
 1455822546 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
 	"opencv2/highgui/highgui.hpp"
@@ -40,4 +48,25 @@
 	"opencv2/imgproc/imgproc.hpp"
 	<stdio.h>
 	<iostream>
+
+1458848618 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.mutex.h
+	<windows.h>
+	<chrono>
+	<system_error>
+
+1458848618 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.condition_variable.h
+	<atomic>
+	<assert.h>
+	"mingw.mutex.h"
+	<chrono>
+	<system_error>
+	<windows.h>
+
+1458848618 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.thread.h
+	<windows.h>
+	<functional>
+	<memory>
+	<chrono>
+	<system_error>
+	<process.h>
 

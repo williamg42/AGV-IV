@@ -16,7 +16,7 @@
 using namespace std;
 using namespace cv;
 
-cv::Mat SEGMENT(cv::Mat Photo);
+cv::Mat SEGMENT(const cv::Mat &Photo);
 
 
 

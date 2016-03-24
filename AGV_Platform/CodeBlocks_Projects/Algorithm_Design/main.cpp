@@ -91,6 +91,18 @@ void GrabThread(VideoCapture *cap)
 void ProcessFrame(const Mat &src)
 {
     if(src.empty()) return;
+    cv::Mat processed;
+    cv::Mat blend;
+    double alpha = 0.5;
+    double beta;
+    processed = SEGMENT(src);
+    cvtColor(processed,blend, CV_GRAY2BGR);
+
+    beta = ( 1.0 - alpha );
+
+    addWeighted( src, alpha, blend,  beta, 0.0, blend);
+
+    imshow( "Linear Blend", blend );
     putText(src, "PROC FRAME", Point(10, 10), CV_FONT_HERSHEY_PLAIN, 1, Scalar(0, 255, 0));
     imshow("Image main", src);
 }

@@ -6,7 +6,7 @@
  */
 #include "Segmenting.hpp"
 
-cv::Mat SEGMENT(cv::Mat Photo)
+cv::Mat SEGMENT(const Mat &Photo)
 {
     int x = 320;
     int y = 240;
