@@ -37,6 +37,9 @@
 		<Unit filename="Segmenting.cpp" />
 		<Unit filename="Segmenting.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="mingw.condition_variable.h" />
+		<Unit filename="mingw.mutex.h" />
+		<Unit filename="mingw.thread.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
