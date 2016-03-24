@@ -17,17 +17,17 @@
 	"Segmenting.hpp"
 	"opencv2/opencv.hpp"
 
-1455818946 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
+1455822546 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
 	"opencv2/highgui/highgui.hpp"
 	"opencv2/imgproc/imgproc.hpp"
 	"BGR2HSI2.hpp"
 	<iostream>
 	<stdio.h>
 
-1456335893 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
+1456344244 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
 	"Segmenting.hpp"
 
-1455832084 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.cpp
+1455835684 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.cpp
 	"BGR2HSI2.hpp"
 
 1455817579 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.h
@@ -35,7 +35,7 @@
 	"opencv2/imgproc/imgproc.hpp"
 	<stdio.h>
 
-1455824377 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.hpp
+1455827977 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.hpp
 	"opencv2/highgui/highgui.hpp"
 	"opencv2/imgproc/imgproc.hpp"
 	<stdio.h>
