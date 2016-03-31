@@ -80,3 +80,79 @@
 1459457907 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\obstacleavoidance.cpp
 	"obstacleavoidance.hpp"
 
+1459010353 source:c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.cpp
+	"BGR2HSI2.hpp"
+
+1459010353 c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.hpp
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	<stdio.h>
+	<iostream>
+
+1459458671 source:c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
+	<Windows.h>
+	<opencv2/opencv.hpp>
+	"opencv2/core/core.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	"opencv2/video/background_segm.hpp"
+	"opencv2/highgui/highgui.hpp"
+	<iostream>
+	<vector>
+	<stdio.h>
+	<fstream>
+	<time.h>
+	<string>
+	<ctype.h>
+	<math.h>
+	<sstream>
+	<thread>
+	<mutex>
+	<queue>
+	<atomic>
+	"Segmenting.hpp"
+	"opencv2/opencv.hpp"
+	"obstacleavoidance.hpp"
+	"mingw.mutex.h"
+	"mingw.condition_variable.h"
+	"mingw.thread.h"
+
+1459011075 c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	"BGR2HSI2.hpp"
+	<iostream>
+	<stdio.h>
+
+1459458671 c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\obstacleavoidance.hpp
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	<stdio.h>
+	<iostream>
+
+1459458671 c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.mutex.h
+	<windows.h>
+	<chrono>
+	<system_error>
+
+1459458671 c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.condition_variable.h
+	<atomic>
+	<assert.h>
+	"mingw.mutex.h"
+	<chrono>
+	<system_error>
+	<windows.h>
+
+1459458671 c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.thread.h
+	<windows.h>
+	<functional>
+	<memory>
+	<chrono>
+	<system_error>
+	<process.h>
+
+1459458671 source:c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\obstacleavoidance.cpp
+	"obstacleavoidance.hpp"
+
+1459458671 source:c:\users\william\documents\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
+	"Segmenting.hpp"
+
