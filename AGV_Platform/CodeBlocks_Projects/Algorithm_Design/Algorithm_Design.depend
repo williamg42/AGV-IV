@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1458849835 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
+1459458321 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\main.cpp
 	<Windows.h>
 	<opencv2/opencv.hpp>
 	"opencv2/core/core.hpp"
@@ -21,18 +21,19 @@
 	<atomic>
 	"Segmenting.hpp"
 	"opencv2/opencv.hpp"
+	"obstacleavoidance.hpp"
 	"mingw.mutex.h"
 	"mingw.condition_variable.h"
 	"mingw.thread.h"
 
-1455822546 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
+1458851221 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.hpp
 	"opencv2/highgui/highgui.hpp"
 	"opencv2/imgproc/imgproc.hpp"
 	"BGR2HSI2.hpp"
 	<iostream>
 	<stdio.h>
 
-1456344244 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
+1459443084 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\segmenting.cpp
 	"Segmenting.hpp"
 
 1455835684 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\bgr2hsi2.cpp
@@ -49,12 +50,12 @@
 	<stdio.h>
 	<iostream>
 
-1458848618 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.mutex.h
+1459443031 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.mutex.h
 	<windows.h>
 	<chrono>
 	<system_error>
 
-1458848618 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.condition_variable.h
+1459443031 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.condition_variable.h
 	<atomic>
 	<assert.h>
 	"mingw.mutex.h"
@@ -62,11 +63,20 @@
 	<system_error>
 	<windows.h>
 
-1458848618 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.thread.h
+1459443031 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\mingw.thread.h
 	<windows.h>
 	<functional>
 	<memory>
 	<chrono>
 	<system_error>
 	<process.h>
+
+1459450775 c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\obstacleavoidance.hpp
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/imgproc/imgproc.hpp"
+	<stdio.h>
+	<iostream>
+
+1459457907 source:c:\users\william\documents\github\agv-iv\agv_platform\codeblocks_projects\algorithm_design\obstacleavoidance.cpp
+	"obstacleavoidance.hpp"
 

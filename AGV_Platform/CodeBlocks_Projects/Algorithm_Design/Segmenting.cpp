@@ -135,7 +135,6 @@ cv::Mat SEGMENT(const Mat &Photo)
     bitwise_or(Int_mask, hue_mask, Result);
     Mat element = getStructuringElement(MORPH_RECT, Size(2 * 2 + 1, 2 * 2 + 1), Point(2, 2));
     morphologyEx( Result, Result, MORPH_OPEN, element );
-
     return Result;
 
 

@@ -28,15 +28,15 @@
 #include <windows.h>
 #ifdef _GLIBCXX_HAS_GTHREADS
 #error This version of MinGW seems to include a win32 port of pthreads, and probably    \
-    already has C++11 std threading classes implemented, based on pthreads.             \
-    It is likely that you will get errors about redefined classes, and unfortunately    \
-    this implementation can not be used standalone and independent of the system <mutex>\
-    header, since it relies on it for                                                   \
-    std::unique_lock and other utility classes. If you would still like to use this     \
-    implementation (as it is more lightweight), you have to edit the                    \
-    c++-config.h system header of your MinGW to not define _GLIBCXX_HAS_GTHREADS.       \
-    This will prevent system headers from defining actual threading classes while still \
-    defining the necessary utility classes.
+already has C++11 std threading classes implemented, based on pthreads.             \
+It is likely that you will get errors about redefined classes, and unfortunately    \
+this implementation can not be used standalone and independent of the system <mutex>\
+header, since it relies on it for                                                   \
+std::unique_lock and other utility classes. If you would still like to use this     \
+implementation (as it is more lightweight), you have to edit the                    \
+c++-config.h system header of your MinGW to not define _GLIBCXX_HAS_GTHREADS.       \
+This will prevent system headers from defining actual threading classes while still \
+defining the necessary utility classes.
 #endif
 
 namespace std
@@ -52,14 +52,21 @@ protected:
     HANDLE mWakeEvent;
 public:
     typedef HANDLE native_handle_type;
-    native_handle_type native_handle() {return mSemaphore;}
+    native_handle_type native_handle()
+    {
+        return mSemaphore;
+    }
     condition_variable_any(const condition_variable_any&) = delete;
     condition_variable_any& operator=(const condition_variable_any&) = delete;
     condition_variable_any()
         :mNumWaiters(0), mSemaphore(CreateSemaphore(NULL, 0, 0xFFFF, NULL)),
          mWakeEvent(CreateEvent(NULL, FALSE, FALSE, NULL))
     {}
-    ~condition_variable_any() {  CloseHandle(mWakeEvent); CloseHandle(mSemaphore);  }
+    ~condition_variable_any()
+    {
+        CloseHandle(mWakeEvent);
+        CloseHandle(mSemaphore);
+    }
 protected:
     template <class M>
     bool wait_impl(M& lock, DWORD timeout)
@@ -69,7 +76,7 @@ protected:
             mNumWaiters++;
         }
         lock.unlock();
-            DWORD ret = WaitForSingleObject(mSemaphore, timeout);
+        DWORD ret = WaitForSingleObject(mSemaphore, timeout);
 
         mNumWaiters--;
         SetEvent(mWakeEvent);
@@ -145,7 +152,7 @@ public:
     }
     template <class M, class Rep, class Period>
     std::cv_status wait_for(M& lock,
-      const std::chrono::duration<Rep, Period>& rel_time)
+                            const std::chrono::duration<Rep, Period>& rel_time)
     {
         long long timeout = chrono::duration_cast<chrono::milliseconds>(rel_time).count();
         if (timeout < 0)
@@ -156,21 +163,21 @@ public:
 
     template <class M, class Rep, class Period, class Predicate>
     bool wait_for(M& lock,
-       const std::chrono::duration<Rep, Period>& rel_time, Predicate pred)
+                  const std::chrono::duration<Rep, Period>& rel_time, Predicate pred)
     {
         wait_for(lock, rel_time);
         return pred();
     }
     template <class M, class Clock, class Duration>
     cv_status wait_until (M& lock,
-      const chrono::time_point<Clock,Duration>& abs_time)
+                          const chrono::time_point<Clock,Duration>& abs_time)
     {
         return wait_for(lock, abs_time - Clock::now());
     }
     template <class M, class Clock, class Duration, class Predicate>
     bool wait_until (M& lock,
-      const std::chrono::time_point<Clock, Duration>& abs_time,
-      Predicate pred)
+                     const std::chrono::time_point<Clock, Duration>& abs_time,
+                     Predicate pred)
     {
         auto time = abs_time - Clock::now();
         if (time < 0)
@@ -190,22 +197,34 @@ public:
     using base::notify_all;
     using base::notify_one;
     void wait(unique_lock<mutex> &lock)
-    {       base::wait(lock);                               }
+    {
+        base::wait(lock);
+    }
     template <class Predicate>
     void wait(unique_lock<mutex>& lock, Predicate pred)
-    {       base::wait(lock, pred);                         }
+    {
+        base::wait(lock, pred);
+    }
     template <class Rep, class Period>
     std::cv_status wait_for(unique_lock<mutex>& lock, const std::chrono::duration<Rep, Period>& rel_time)
-    {      return base::wait_for(lock, rel_time);           }
+    {
+        return base::wait_for(lock, rel_time);
+    }
     template <class Rep, class Period, class Predicate>
     bool wait_for(unique_lock<mutex>& lock, const std::chrono::duration<Rep, Period>& rel_time, Predicate pred)
-    {        return base::wait_for(lock, rel_time, pred);   }
+    {
+        return base::wait_for(lock, rel_time, pred);
+    }
     template <class Clock, class Duration>
     cv_status wait_until (unique_lock<mutex>& lock, const chrono::time_point<Clock,Duration>& abs_time)
-    {        return base::wait_for(lock, abs_time);         }
+    {
+        return base::wait_for(lock, abs_time);
+    }
     template <class Clock, class Duration, class Predicate>
     bool wait_until (unique_lock<mutex>& lock, const std::chrono::time_point<Clock, Duration>& abs_time, Predicate pred)
-    {        return base::wait_until(lock, abs_time, pred); }
+    {
+        return base::wait_until(lock, abs_time, pred);
+    }
 };
 }
 #endif // MINGW_CONDITIONAL_VARIABLE_H

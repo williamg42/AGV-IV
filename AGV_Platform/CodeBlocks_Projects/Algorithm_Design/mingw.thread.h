@@ -29,15 +29,15 @@
 
 #ifdef _GLIBCXX_HAS_GTHREADS
 #error This version of MinGW seems to include a win32 port of pthreads, and probably    \
-    already has C++11 std threading classes implemented, based on pthreads.             \
-    It is likely that you will get class redefinition errors below, and unfortunately   \
-    this implementation can not be used standalone                                      \
-    and independent of the system <mutex> header, since it relies on it for             \
-    std::unique_lock and other utility classes. If you would still like to use this     \
-    implementation (as it is more lightweight), you have to edit the                    \
-    c++-config.h system header of your MinGW to not define _GLIBCXX_HAS_GTHREADS.       \
-    This will prevent system headers from defining actual threading classes while still \
-    defining the necessary utility classes.
+already has C++11 std threading classes implemented, based on pthreads.             \
+It is likely that you will get class redefinition errors below, and unfortunately   \
+this implementation can not be used standalone                                      \
+and independent of the system <mutex> header, since it relies on it for             \
+std::unique_lock and other utility classes. If you would still like to use this     \
+implementation (as it is more lightweight), you have to edit the                    \
+c++-config.h system header of your MinGW to not define _GLIBCXX_HAS_GTHREADS.       \
+This will prevent system headers from defining actual threading classes while still \
+defining the necessary utility classes.
 #endif
 
 //instead of INVALID_HANDLE_VALUE _beginthreadex returns 0
@@ -51,23 +51,35 @@ public:
     class id
     {
         DWORD mId;
-        void clear() {mId = 0;}
+        void clear()
+        {
+            mId = 0;
+        }
         friend class thread;
     public:
-        id(DWORD aId=0):mId(aId){}
-        bool operator==(const id& other) const {return mId == other.mId;}
+        id(DWORD aId=0):mId(aId) {}
+        bool operator==(const id& other) const
+        {
+            return mId == other.mId;
+        }
     };
 protected:
     HANDLE mHandle;
     id mThreadId;
 public:
     typedef HANDLE native_handle_type;
-    id get_id() const noexcept {return mThreadId;}
-    native_handle_type native_handle() const {return mHandle;}
-    thread(): mHandle(_STD_THREAD_INVALID_HANDLE){}
+    id get_id() const noexcept
+    {
+        return mThreadId;
+    }
+    native_handle_type native_handle() const
+    {
+        return mHandle;
+    }
+    thread(): mHandle(_STD_THREAD_INVALID_HANDLE) {}
 
     thread(thread&& other)
-    :mHandle(other.mHandle), mThreadId(other.mThreadId)
+        :mHandle(other.mHandle), mThreadId(other.mThreadId)
     {
         other.mHandle = _STD_THREAD_INVALID_HANDLE;
         other.mThreadId.clear();
@@ -81,7 +93,7 @@ public:
         typedef decltype(std::bind(f, args...)) Call;
         Call* call = new Call(std::bind(f, args...));
         mHandle = (HANDLE)_beginthreadex(NULL, 0, threadfunc<Call>,
-            (LPVOID)call, 0, (unsigned*)&(mThreadId.mId));
+                                         (LPVOID)call, 0, (unsigned*)&(mThreadId.mId));
     }
     template <class Call>
     static unsigned int __stdcall threadfunc(void* arg)
@@ -90,7 +102,10 @@ public:
         (*upCall)();
         return (unsigned long)0;
     }
-    bool joinable() const {return mHandle != _STD_THREAD_INVALID_HANDLE;}
+    bool joinable() const
+    {
+        return mHandle != _STD_THREAD_INVALID_HANDLE;
+    }
     void join()
     {
         if (get_id() == GetCurrentThreadId())
@@ -114,7 +129,7 @@ public:
     thread& operator=(thread&& other) noexcept
     {
         if (joinable())
-          std::terminate();
+            std::terminate();
         swap(std::forward<thread>(other));
         return *this;
     }
@@ -149,18 +164,24 @@ public:
 
 namespace this_thread
 {
-    inline thread::id get_id() {return thread::id(GetCurrentThreadId());}
-    inline void yield() {Sleep(0);}
-    template< class Rep, class Period >
-    void sleep_for( const std::chrono::duration<Rep,Period>& sleep_duration)
-    {
-        Sleep(chrono::duration_cast<chrono::milliseconds>(sleep_duration).count());
-    }
-    template <class Clock, class Duration>
-    void sleep_until(const std::chrono::time_point<Clock,Duration>& sleep_time)
-    {
-        sleep_for(sleep_time-Clock::now());
-    }
+inline thread::id get_id()
+{
+    return thread::id(GetCurrentThreadId());
+}
+inline void yield()
+{
+    Sleep(0);
+}
+template< class Rep, class Period >
+void sleep_for( const std::chrono::duration<Rep,Period>& sleep_duration)
+{
+    Sleep(chrono::duration_cast<chrono::milliseconds>(sleep_duration).count());
+}
+template <class Clock, class Duration>
+void sleep_until(const std::chrono::time_point<Clock,Duration>& sleep_time)
+{
+    sleep_for(sleep_time-Clock::now());
+}
 }
 
 }

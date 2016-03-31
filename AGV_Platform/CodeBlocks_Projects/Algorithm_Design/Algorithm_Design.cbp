@@ -40,6 +40,8 @@
 		<Unit filename="mingw.condition_variable.h" />
 		<Unit filename="mingw.mutex.h" />
 		<Unit filename="mingw.thread.h" />
+		<Unit filename="obstacleavoidance.cpp" />
+		<Unit filename="obstacleavoidance.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

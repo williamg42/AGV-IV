@@ -2,9 +2,6 @@
 #include <Windows.h>
 #endif
 
-
-
-
 #include<opencv2/opencv.hpp>
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -28,6 +25,7 @@
 
 #include "Segmenting.hpp"
 #include "opencv2/opencv.hpp"
+#include "obstacleavoidance.hpp"
 
 #ifdef _WIN32
 #include "mingw.mutex.h"
@@ -85,7 +83,7 @@ void GrabThread(VideoCapture *cap)
             waitKey(1);    //just for imshow
         }
     }
-    std::cout << std::endl << "Number of Mat in memory: " << matMemoryCounter.size();
+    //std::cout << std::endl << "Number of Mat in memory: " << matMemoryCounter.size();
 }
 
 void ProcessFrame(const Mat &src)
@@ -96,6 +94,12 @@ void ProcessFrame(const Mat &src)
     double alpha = 0.5;
     double beta;
     processed = SEGMENT(src);
+
+
+    //code for finding bottom projection of input image
+    obstacleavoidance(processed);
+
+
     cvtColor(processed,blend, CV_GRAY2BGR);
 
     beta = ( 1.0 - alpha );
@@ -112,12 +116,14 @@ void ProcessFrame(const Mat &src)
 
 int main(int, char**)
 {
-     Mat frame;
+    Mat frame;
     VideoCapture cap(0); // open the default camera
     cap.set(CAP_PROP_FRAME_WIDTH, 320);
     cap.set(CAP_PROP_FRAME_HEIGHT, 240);
     if(!cap.isOpened())  // check if we succeeded
         return -1;
+
+
 
     grabOn.store(true);                //set the grabbing control variable
     thread t(GrabThread, &cap);          //start the grabbing thread
@@ -145,7 +151,7 @@ int main(int, char**)
 
         //if bufSize is increasing means that process time is too slow regards to grab time
         //may be you will have out of memory soon
-        cout << endl << "frame to process:" << bufSize;
+      //  cout << endl << "frame to process:" << bufSize;
 
         if (waitKey(1) >= 0)        //press any key to terminate
         {
@@ -169,71 +175,3 @@ int main(int, char**)
 }
 
 
-//    Mat processed;
-//
-//    namedWindow("Linear Blend", 2);
-//
-//    Mat blend;
-//    double alpha = 0.5;
-//    double beta;
-//
-//    for(;;)
-//    {
-//        Mat frame;
-//        cap >> frame; // get a new frame from camera
-//
-//        processed = SEGMENT(frame);
-//
-//        cvtColor(processed,blend, CV_GRAY2BGR);
-//
-//        beta = ( 1.0 - alpha );
-//
-//        addWeighted( frame, alpha, blend,  beta, 0.0, blend);
-//
-//        imshow( "Linear Blend", blend );
-//
-//        if(waitKey(30) >= 0) break;
-//    }
-//    // the camera will be deinitialized automatically in VideoCapture destructor
-//    return 0;
-//
-//}
-//
-////cv::Mat frame;
-////
-////int main(int argc, char *argv[])
-////{
-////
-////
-////    Size size(480, 320);
-////
-////    frame = cv::imread("Capture3.png", CV_LOAD_IMAGE_COLOR);// read the file
-////
-////    resize(frame, frame, size); //resize image
-////
-////
-////    Mat processed;
-////// declare the writer properties
-////
-////
-////    cv::namedWindow("Processed");
-////
-////
-////    processed = SEGMENT(frame);
-////
-////    imshow("Processed",processed);
-//
-//
-//    waitKey(0);// wait for a keystroke in the window
-//
-//
-//    cv::destroyWindow( "Processed" );
-//    frame.release();
-//    processed.release();
-
-
-//
-//    return 0;
-//}
-
-//////////////////////////////////////////////////////////////////////////

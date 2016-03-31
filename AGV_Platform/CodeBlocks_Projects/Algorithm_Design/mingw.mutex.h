@@ -21,22 +21,22 @@
 #define WIN32STDMUTEX_H
 #ifdef _GLIBCXX_HAS_GTHREADS
 #error This version of MinGW seems to include a win32 port of pthreads, and probably    \
-    already has C++11 std threading classes implemented, based on pthreads.             \
-    You are likely to have class redefinition errors below, and unfirtunately this      \
-    implementation can not be used standalone                                           \
-    and independent of the system <mutex> header, since it relies on it for             \
-    std::unique_lock and other utility classes. If you would still like to use this     \
-    implementation (as it is more lightweight), you have to edit the                    \
-    c++-config.h system header of your MinGW to not define _GLIBCXX_HAS_GTHREADS.       \
-    This will prevent system headers from defining actual threading classes while still \
-    defining the necessary utility classes.
+already has C++11 std threading classes implemented, based on pthreads.             \
+You are likely to have class redefinition errors below, and unfirtunately this      \
+implementation can not be used standalone                                           \
+and independent of the system <mutex> header, since it relies on it for             \
+std::unique_lock and other utility classes. If you would still like to use this     \
+implementation (as it is more lightweight), you have to edit the                    \
+c++-config.h system header of your MinGW to not define _GLIBCXX_HAS_GTHREADS.       \
+This will prevent system headers from defining actual threading classes while still \
+defining the necessary utility classes.
 #endif
 // Recursion checks on non-recursive locks have some performance penalty, so the user
 // may want to disable the checks in release builds. In that case, make sure they
 // are always enabled in debug builds.
 
 #if defined(STDMUTEX_NO_RECURSION_CHECKS) && !defined(NDEBUG)
-    #undef STDMUTEX_NO_RECURSION_CHECKS
+#undef STDMUTEX_NO_RECURSION_CHECKS
 #endif
 
 #include <windows.h>
@@ -44,10 +44,10 @@
 #include <system_error>
 
 #ifndef EPROTO
-    #define EPROTO 134
+#define EPROTO 134
 #endif
 #ifndef EOWNERDEAD
-    #define EOWNERDEAD 133
+#define EOWNERDEAD 133
 #endif
 
 namespace std
@@ -58,7 +58,10 @@ protected:
     CRITICAL_SECTION mHandle;
 public:
     typedef LPCRITICAL_SECTION native_handle_type;
-    native_handle_type native_handle() {return &mHandle;}
+    native_handle_type native_handle()
+    {
+        return &mHandle;
+    }
     recursive_mutex() noexcept
     {
         InitializeCriticalSection(&mHandle);
@@ -138,9 +141,9 @@ public:
 };
 
 #ifndef STDMUTEX_NO_RECURSION_CHECKS
-    typedef _NonRecursive<recursive_mutex> mutex;
+typedef _NonRecursive<recursive_mutex> mutex;
 #else
-    typedef recursive_mutex mutex;
+typedef recursive_mutex mutex;
 #endif
 
 class recursive_timed_mutex
@@ -149,10 +152,13 @@ protected:
     HANDLE mHandle;
 public:
     typedef HANDLE native_handle_type;
-    native_handle_type native_handle() const {return mHandle;}
+    native_handle_type native_handle() const
+    {
+        return mHandle;
+    }
     recursive_timed_mutex(const recursive_timed_mutex&) = delete;
     recursive_timed_mutex& operator=(const recursive_timed_mutex&) = delete;
-    recursive_timed_mutex(): mHandle(CreateMutex(NULL, FALSE, NULL)){}
+    recursive_timed_mutex(): mHandle(CreateMutex(NULL, FALSE, NULL)) {}
     ~recursive_timed_mutex()
     {
         CloseHandle(mHandle);
@@ -245,11 +251,11 @@ public:
 /// Do not acquire ownership of the mutex.
 struct defer_lock_t { };
 
- /// Try to acquire ownership of the mutex without blocking.
+/// Try to acquire ownership of the mutex without blocking.
 struct try_to_lock_t { };
 
- /// Assume the calling thread has already obtained mutex ownership
- /// and manage it.
+/// Assume the calling thread has already obtained mutex ownership
+/// and manage it.
 struct adopt_lock_t { };
 
 constexpr defer_lock_t	defer_lock { };
@@ -265,9 +271,15 @@ public:
     typedef M mutex_type;
     lock_guard(const lock_guard&) = delete;
     lock_guard& operator=(const lock_guard&) = delete;
-    explicit lock_guard(mutex_type& m): mMutex(m) { mMutex.lock();  }
-    lock_guard(mutex_type& m, std::adopt_lock_t):mMutex(m){}
-    ~lock_guard() {  mMutex.unlock();   }
+    explicit lock_guard(mutex_type& m): mMutex(m)
+    {
+        mMutex.lock();
+    }
+    lock_guard(mutex_type& m, std::adopt_lock_t):mMutex(m) {}
+    ~lock_guard()
+    {
+        mMutex.unlock();
+    }
 };
 
 #endif
