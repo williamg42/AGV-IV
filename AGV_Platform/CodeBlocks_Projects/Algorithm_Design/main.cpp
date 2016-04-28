@@ -105,8 +105,8 @@ void ProcessFrame(const Mat &src)
     beta = ( 1.0 - alpha );
 
     addWeighted( src, alpha, blend,  beta, 0.0, blend);
-
-    imshow( "Linear Blend", blend );
+     namedWindow("Linear Blend", WINDOW_KEEPRATIO);
+    imshow( "Linear Blend", blend);
     putText(src, "PROC FRAME", Point(10, 10), CV_FONT_HERSHEY_PLAIN, 1, Scalar(0, 255, 0));
     imshow("Image main", src);
 }

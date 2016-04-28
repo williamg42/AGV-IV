@@ -2,6 +2,9 @@
 
 #define xsize 64
 #define ysize 48
+#define angularconstant .005
+#define dmin 5
+#define velocityconstant .03
 
 
 void obstacleavoidance(const cv::Mat &Photo)
@@ -54,9 +57,17 @@ void obstacleavoidance(const cv::Mat &Photo)
     }
 
 
-    std::cout << std::endl << "Left lower pixel: " << leftlower;
-    std::cout << std::endl << "Middle lower pixel: " << middlelower;
-    std::cout << std::endl << "Right lower pixel: " << rightlower;
+
+    float angularvelocity = angularconstant*(leftlower-rightlower);
+    float velocity = velocityconstant*(middlelower-dmin);
+
+
+    std::cout << std::endl << "angular velocity: " << angularvelocity;
+    std::cout << std::endl << "velocity: " << velocity;
+
+
+
+
 
 
 }

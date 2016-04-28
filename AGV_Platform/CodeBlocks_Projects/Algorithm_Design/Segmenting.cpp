@@ -28,7 +28,7 @@ cv::Mat SEGMENT(const Mat &Photo)
     cvtColor(srcclone, src, CV_BGR2HSV);
     //src = BGR2HSI2(srcclone);
 
-    namedWindow("hsv");
+    namedWindow("hsv", WINDOW_KEEPRATIO);
     imshow("hsv", src);
 
 
