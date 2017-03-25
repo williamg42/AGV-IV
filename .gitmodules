@@ -1,0 +1,3 @@
+[submodule "AGV-Firmware/BNO055_driver"]
+	path = AGV-Firmware/BNO055_driver
+	url = https://github.com/williamg42/BNO055_driver
